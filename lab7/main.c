@@ -28,7 +28,8 @@ void p2(void)
     r1=insertBST(r1,d);
     d.data=15;
     r1=insertBST(r1,d);
-    //printInOrder(r1);
+    printInOrder(r1);
+    printf("\n");
     
     d.data=13;
     r2=insertBST(r2,d);
@@ -38,9 +39,11 @@ void p2(void)
     r2=insertBST(r2,d);
     d.data=2;
     r2=insertBST(r2,d);
-    //printInOrder(r2);
+    printInOrder(r2);
+    printf("\n");
     
     printBSTs(r1, r2);
+    printf("\n");
     
     deleteTree(r1);
     deleteTree(r2);
