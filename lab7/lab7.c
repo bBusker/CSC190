@@ -94,4 +94,7 @@ void printBSTs(struct Node * r1, struct Node * r2){
         tempnode3 = pop(stk3);
         printf("%d ", tempnode3->d.data);
     }
+    freeStack(stk1);
+    freeStack(stk2);
+    freeStack(stk3);
 }

@@ -1,0 +1,49 @@
+#include "lab8.h"
+
+struct flowNetwork * initFlowNetwork(){
+    int i;
+    struct flowNetwork * res = (struct flowNetwork *)malloc(sizeof(struct flowNetwork));
+    res->adjMatrix = initAdjMatrix();
+    for(i=0; i<NODES; i++)
+    {
+        res->visitedNodes[i] = 0;
+        res->parent[i] = -1;
+    }
+    return res;
+}
+
+void deleteFlowNetwork(struct flowNetwork * fN){
+    deleteAdjMatrix(fN->adjMatrix);
+    free(fN);
+}
+
+int breadthFirstPathSearch(struct flowNetwork * fN, int s, int t){
+    struct Queue * flowQ;
+    struct Data tempData;
+    int currNode;
+    int i;
+    
+    initQueue(&flowQ);
+    tempData.vertex = s;
+    
+    enqueue(flowQ, tempData);
+    while(isQueueEmpty(flowQ) == 0)
+    {
+        dequeue(flowQ, &tempData);
+        currNode = tempData.vertex;
+        fN->visitedNodes[currNode] = 1;
+        for(i=0; i<NODES; i++)
+        {
+            if(fN->visitedNodes[i] != 1 && fN->adjMatrix[currNode][i].flowCap - fN->adjMatrix[currNode][i].flow > 0)
+            {
+                tempData.vertex = i;
+                enqueue(flowQ, tempData);
+                fN->visitedNodes[i] = 1;
+                fN->parent[i] = currNode;
+            }
+        }
+        
+    }
+    free(flowQ);
+    return fN->visitedNodes[t];
+}
