@@ -52,46 +52,39 @@ void maximizeFlowNetwork(struct flowNetwork * fN, int s, int t){
     while(breadthFirstPathSearch(fN, s, t) == 1)
     {
         int i = t;
-        int j;
+        int j = 0;
         int flowRestriction;
         int path[NODES];
         
-        printf("test1\n");
-        
-        j=0;
-        while(fN->parent[i] != -1)
+        while(i != -1)
         {
-           path[j++] = i;
+           path[j] = i;
            i = fN->parent[i];
+           j += 1;
         }
-        
-        printf("test2\n");
         
         j -= 1;
         i = j;
         flowRestriction = fN->adjMatrix[path[j]][path[j-1]].flowCap;
         while(j>0)
         {
-            if (fN->adjMatrix[path[j]][path[j-1]].flowCap < flowRestriction)
+            if (fN->adjMatrix[path[j]][path[j-1]].flowCap - fN->adjMatrix[path[j]][path[j-1]].flow < flowRestriction)
             {
-                flowRestriction = fN->adjMatrix[path[j]][path[j-1]].flowCap;
+                flowRestriction = fN->adjMatrix[path[j]][path[j-1]].flowCap - fN->adjMatrix[path[j]][path[j-1]].flow;
             }
             j -= 1;
         }
         
-        printf("test3\n");
-        
         while(i>0)
         {
-            fN->adjMatrix[path[i]][path[i-1]].flow = flowRestriction;
+            fN->adjMatrix[path[i]][path[i-1]].flow += flowRestriction;
             i-=1;
         }
         
         for(i=0; i<NODES; i++)
         {
             fN->visitedNodes[i] = 0;
+            fN->parent[i] = -1;
         }
-        
-        printf("test4\n");
     }
 }
