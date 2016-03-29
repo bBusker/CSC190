@@ -58,13 +58,13 @@ void maximizeFlowNetwork(struct flowNetwork * fN, int s, int t){
         
         while(i != -1)
         {
-           path[j] = i;
+           path[j++] = i;
            i = fN->parent[i];
-           j += 1;
         }
         
         j -= 1;
         i = j;
+        
         flowRestriction = fN->adjMatrix[path[j]][path[j-1]].flowCap;
         while(j>0)
         {
